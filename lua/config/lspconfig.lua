@@ -86,10 +86,6 @@ nvim_lsp.tsserver.setup {
   }
 }
 
-nvim_lsp.pyright.setup{
-  on_attach = on_attach,
-}
-
 --Enable (broadcasting) snippet capability for completion
 -- local capabilities = vim.lsp.protocol.make_client_capabilities()
 -- capabilities.textDocument.completion.completionItem.snippetSupport = true
@@ -161,10 +157,6 @@ nvim_lsp.diagnosticls.setup {
       json = 'eslint',
     },
     formatters = {
-      black = {
-        command = 'black',
-        args = {"--quiet", "-"}
-      },
       eslint_d = {
         command = 'eslint_d',
         args = { '--stdin', '--stdin-filename', '%filename', '--fix-to-stdout' },
@@ -176,7 +168,6 @@ nvim_lsp.diagnosticls.setup {
       }
     },
     formatFiletypes = {
-      python = 'black',
       css = 'prettier',
       javascript = 'prettier',
       javascript = 'prettier',
