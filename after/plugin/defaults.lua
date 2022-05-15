@@ -53,3 +53,26 @@ vim.api.nvim_create_autocmd({"BufReadPost"}, {
   end,
   desc = "Restore cursor position in reopened file",
 })
+
+-- tmux window title with current filename
+vim.api.nvim_create_autocmd({"BufEnter"}, {
+  pattern = "*",
+  callback = function()
+    if vim.env.TMUX ~= nil then
+      vim.cmd [[call system("tmux rename-window '" . expand("%:t") . "'")]]
+    end
+  end,
+  desc = "tmux window title with current filename",
+})
+
+-- tmux window title to default
+vim.api.nvim_create_autocmd({"VimLeave"}, {
+  pattern = "*",
+  callback = function()
+    if vim.env.TMUX ~= nil then
+      vim.cmd [[call system("tmux setw automatic-rename")]]
+    end
+  end,
+  desc = "tmux window title to default",
+})
+
