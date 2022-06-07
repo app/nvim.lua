@@ -3,6 +3,17 @@ if not loaded then
   return
 end
 
+fzfLua.setup {
+  winopts = {
+    width = 0.90,
+    preview = {
+      layout='vertical',
+      vertical = 'down:40%',
+    },
+  },
+
+}
+
 -- Remap leader and local leader to <Space>
 vim.api.nvim_set_keymap("", "<Space>", "<Nop>", { noremap = true, silent = true })
 vim.g.mapleader = " "
