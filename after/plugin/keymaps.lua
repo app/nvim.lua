@@ -5,7 +5,31 @@ local expr_opts = { noremap = true, expr = true, silent = true }
 --Highlight off
 keymap("n", "<silent> <C-l>", ":nohlsearch<CR><C-l>", default_opts)
 
-keymap("n", "<leader>l", ":set list!<CR>:set cursorcolumn!<CR>",default_opts)
+-- Display hidden symbols
+vim.g.listExtended = false
+keymap("n", "<leader>l", "", {
+  noremap = true,
+  callback = function()
+    if vim.g.listExtended then
+      vim.wo.cursorcolumn = true
+      vim.opt.listchars = {
+        space = ".",
+        eol = "↵",
+        nbsp = "+",
+        tab = "> ",
+        trail = "-"
+      }
+    else
+      vim.wo.cursorcolumn = false
+      vim.opt.listchars = {
+        nbsp = "+",
+        tab = "> ",
+        trail = "-"
+      }
+    end
+    vim.g.listExtended = not vim.g.listExtended
+  end,
+})
 
 --Add new line below in Insert mode
 keymap("i", "<C-o>", "<esc>o",default_opts)
