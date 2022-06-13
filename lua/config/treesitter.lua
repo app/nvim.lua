@@ -9,7 +9,7 @@ function M.setup()
 
   local config = {
     -- A list of parser names, or "all" for all available
-    ensure_installed = { "c", "lua", "javascript", "html", "css", "bash", "json" },
+    -- ensure_installed = { "c", "lua", "javascript", "html", "css", "bash", "json" },
 
     incremental_selection = {
       enable = true,
