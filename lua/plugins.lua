@@ -2,8 +2,15 @@ local Plug = vim.fn['plug#']
 vim.call('plug#begin', '~/.config/nvim/plugged')
 
   Plug 'windwp/nvim-autopairs' -- Automatic paired character insersion
-  -- Solarized theme with dark-dark gray background color
-  Plug 'app/solarized' -- 'solarized' color scheme with some lua plugins support
+  -- Color schemes with some lua plugins support
+  Plug 'Mofiqul/dracula.nvim' -- dark mode only color theme
+  Plug 'ellisonleao/gruvbox.nvim' -- dark/light mode color theme
+  Plug 'wadackel/vim-dogrun' -- dark mode only color theme
+  Plug 'olimorris/onedarkpro.nvim' -- dark/light mode color theme
+  Plug 'Mofiqul/vscode.nvim' -- dark/light mode color theme
+  -- Solarized theme with patched to dark-dark gray background color
+  Plug 'app/solarized' -- dark/light mode color theme
+
   Plug 'kyazdani42/nvim-web-devicons' -- status line icons; reruided by lualine.nvim
   Plug 'hoob3rt/lualine.nvim' -- status line decoration
   Plug 'nvim-lua/plenary.nvim' -- required by gitsigns.nvim from next line :)
@@ -63,14 +70,22 @@ vim.call('plug#end')
 -- Soursing plugins configs
 require("config.autopairs").setup()
 
--- vim.cmd "colorscheme solarized"
-vim.cmd [[
-  try
-    colorscheme solarized
-  catch
-    echo "Warning: Please check 'app/solarized' plugin installed"
-  endtry
-]]
+-- Color theme setup
+-- Supported themes and valid values for NVIM_THEME environment variable
+-- dogrun
+-- dracula
+-- gruvbox
+-- onedarkpro
+-- solarized
+-- vscode
+local defaultBgColor = "dark"
+local defaultTheme = "solarized"
+local bgColor = vim.env.NVIM_BGCOLOR ~= nil and vim.env.NVIM_BGCOLOR or defaultBgColor
+local theme = vim.env.NVIM_THEME ~= nil and vim.env.NVIM_THEME or defaultTheme
+vim.cmd( "set background=" .. bgColor)
+vim.cmd("colorscheme " .. theme)
+
+-- Show intro screen if no file opened on start up
 local withoutFileName = (#vim.v.argv == 1)
 if (withoutFileName) then
   vim.cmd "intro"
