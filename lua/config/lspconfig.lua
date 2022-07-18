@@ -40,6 +40,29 @@ local on_attach = function(client, bufnr)
     }
   )
 
+  -- Setup solid borders of diagnostic messages float window
+  vim.diagnostic.open_float = (function(orig)
+    return function(opts)
+      if not opts then opts = {} end
+      local lnum = vim.api.nvim_win_get_cursor(0)[1] - 1
+      -- A more robust solution would check the "scope" value in `opts` to
+      -- determine where to get diagnostics from, but if you're only using
+      -- this for your own purposes you can make it as simple as you like
+      local diagnostics = vim.diagnostic.get(opts.bufnr or 0, {lnum = lnum})
+      opts.border = {
+        { "╭" },
+        { "─" },
+        { "╮" },
+        { "│" },
+        { "╯" },
+        { "─" },
+        { "╰" },
+        { "│" },
+      }
+      orig(opts)
+    end
+  end)(vim.diagnostic.open_float)
+
   -- formatting with motion
   function format_range_operator()
     local old_func = vim.go.operatorfunc
