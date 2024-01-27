@@ -32,7 +32,7 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
   buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
   -- buf_set_keymap('n', '<space>q', '<cmd>lua vim.diagnostic.set_loclist()<CR>', opts)
-  buf_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+  buf_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.format()<CR>', opts)
 
   vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     vim.lsp.diagnostic.on_publish_diagnostics, {
@@ -91,11 +91,15 @@ local on_attach = function(client, bufnr)
   vim.api.nvim_set_keymap("v", "<leader>=", "<C-[><cmd>lua vim.lsp.buf.range_formatting()<CR>", {noremap = true})
 
   -- Format on save
-  if client.resolved_capabilities.document_formatting then
-    vim.api.nvim_command [[augroup Format]]
-    vim.api.nvim_command [[autocmd! * <buffer>]]
-    vim.api.nvim_command [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_seq_sync()]]
-    vim.api.nvim_command [[augroup END]]
+  if client.server_capabilities.documentFormattingProvider then
+    vim.cmd(
+      [[
+        augroup LspFormatting
+        autocmd! * <buffer>
+        autocmd BufWritePre <buffer> lua vim.lsp.buf.format()
+        augroup END
+      ]]
+    )
   end
 end
 
